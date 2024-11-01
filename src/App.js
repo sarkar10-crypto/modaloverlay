@@ -1,23 +1,46 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+import Modal from './Components/modal';
+import Last from './Components/last';
 
 function App() {
+  const [isshow, setisshow] = useState(false);
+  const [isofferaccepted, setisofferaccepted] = useState(false);
+  const Handleoffer = () => {
+    setisshow(true);
+  }
+
+  const Handleclose = () => {
+    setisshow(false);
+  }
+
+  const HandleOfferAccept = () => {
+    setisshow(false);
+    setisofferaccepted(true);
+  }
+  const handleExit = (e) => {
+    // setisshow(false); ye logic lagaunga toh kahi pe bhi click hua to close ho jaye ga hum ko sirf modal-content ke bahar clickExit ko apply karna hai
+    console.log(e.target.className);
+    if (e.target.className === "modal") {
+      Handleclose();
+    }
+  }
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      
+      {
+        !isofferaccepted && <div className='show-offer'>
+          <h1>MODAL OVERLAY</h1>
+        <button onClick={Handleoffer} className='offer-btn'>Show Offer</button>
+      </div>
+      }
+      {
+        isshow && <Modal Handleclose={Handleclose} HandleOfferAccept={HandleOfferAccept} handleExit={handleExit} />
+      }
+      {
+        isofferaccepted && <Last/>
+      }
     </div>
   );
 }
